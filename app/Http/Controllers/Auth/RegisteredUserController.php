@@ -43,9 +43,15 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
+        $user->assignRole('client');
+        
         Auth::login($user);
-
+       if($user->hasRole('admin')){
         return redirect(RouteServiceProvider::HOME);
+
+       }else{
+        return redirect(RouteServiceProvider::CLIENT);
+
+       }
     }
 }

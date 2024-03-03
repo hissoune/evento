@@ -32,21 +32,5 @@
                 {{ $slot }}
             </main>
         </div>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const boutonOuvrirPopup = document.getElementById('ouvrirPopup');
-                const boutonFermerPopup = document.getElementById('fermerPopup');
-                const popup = document.getElementById('popup');
-        
-                boutonOuvrirPopup.addEventListener('click', function() {
-                    popup.classList.remove('hidden');
-                });
-        
-                boutonFermerPopup.addEventListener('click', function() {
-                    popup.classList.add('hidden');
-                });
-            });
-        </script>
     </body>
 </html>
