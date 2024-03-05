@@ -13,4 +13,18 @@ class Category extends Model
     protected $fillable=[
         'name',
     ];
+    protected static function boot()
+    {
+        parent::boot();
+    
+        static::deleting(function ($Category) {
+            $Category->Events->each->delete();
+        });
+    }
+
+    public function Events(){
+        return $this->hasMany(Event::class, 'categories_id');
+    
+      }
+
 }

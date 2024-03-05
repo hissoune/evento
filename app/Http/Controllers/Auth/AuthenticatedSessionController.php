@@ -34,9 +34,12 @@ class AuthenticatedSessionController extends Controller
         if($user->hasRole('admin')){
             return redirect(RouteServiceProvider::HOME);
     
-           }else{
+           }elseif($user->hasRole('client')){
             return redirect(RouteServiceProvider::CLIENT);
     
+           }else{
+            return redirect(RouteServiceProvider::ORGANISATOR);
+
            }
         // return redirect()->intended(RouteServiceProvider::HOME);
     }
