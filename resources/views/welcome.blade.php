@@ -83,30 +83,21 @@
         </section>
 
         <main>
-            <!-- Search -->
-            <form action="">
+            <form action="{{ route('search') }}" method="GET" id="searchForm">
                 <div class="relative border-2 border-gray-100 m-4 rounded-lg">
                     <div class="absolute top-4 left-3">
-                        <i
-                            class="fa fa-search text-gray-400 z-20 hover:text-gray-500"
-                        ></i>
+                        <i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i>
                     </div>
                     <input
                         type="text"
-                        name="search"
+                        id="searchInput"
+                        name="searchInput"
                         class="h-14 w-full pl-10 pr-20 rounded-lg z-0 focus:shadow focus:outline-none"
-                        placeholder="Search Laravel Gigs..."
+                        placeholder="Search for Event..."
                     />
-                    <div class="absolute top-2 right-2">
-                        <button
-                            type="submit"
-                            class="h-10 w-20 text-white rounded-lg bg-red-500 hover:bg-red-600"
-                        >
-                            Search
-                        </button>
-                    </div>
                 </div>
             </form>
+
 
             <div class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4 " >
                
@@ -180,6 +171,51 @@
                 @endforelse
             </div>
         </main>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    
+        <script>
+    $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+            var searchTerm = $(this).val();
+            console.log(searchTerm)
+            $.ajax({
+                type: 'GET',
+                url: '{{ route("search") }}',
+                dataType: 'json',
+                success: function (data) {
+                    var body = $('.lg:grid');
+                    body.empty();
+
+                    if (data.length === 0) {
+                        body.append('<div>No results found</div>');
+                    } else {
+                        $.each(data, function (index, event) {
+                           
+                            var cardHtml = `
+                                <div class="bg-gray-50 border border-gray-200 shadow rounded p-6">
+                                    <h3>${event.title}</h3>
+                                    <!-- Your event details here -->
+                                </div>
+                            `;
+                            body.append(cardHtml);
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+
+      
+        
+        
+        
+          
     </x-slot>
+
 </x-Home-layout>

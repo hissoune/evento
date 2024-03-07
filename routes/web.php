@@ -20,6 +20,7 @@ use App\Http\Controllers\ReservationController;
 */ 
 
 Route::get('/',[HomeController::class,'index'])->name('/');
+Route::get('search',[HomeController::class,'search'])->name('search');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', function () {

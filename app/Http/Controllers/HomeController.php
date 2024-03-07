@@ -11,4 +11,11 @@ class HomeController extends Controller
         $Events=Event::where('validated',true)->get();
         return view('welcome',compact('Events'));
     }
+    public function search(Request $request)
+    {
+        $query=$request->input('query');
+        $Events = Event::where('title', 'like', '%' . $query . '%')->get();
+        return view('welcome', compact('Events'));
+    }
+    
 }
