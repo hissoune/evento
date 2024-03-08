@@ -22,7 +22,7 @@
             
             <li>
                 <a href="{{ route('login') }}" class="hover:text-laravel"
-                    ><i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    >class="hover:text-laravel"<i class="fa-solid fa-arrow-right-to-bracket"></i>
                     Login</a
                 >
             </li>
@@ -43,18 +43,31 @@
     </ul>
 </nav> --}}
 <div class="container-xxl relative p-0">
-    <nav class="bg-gray-800 text-white px-4 py-3">
+    <nav x-data="{ open: false }" class="bg-gray-800 text-white px-4 py-3">
         <div class="flex items-center justify-between">
             <a href="#" class="text-2xl font-bold flex items-center">
                 <i class="fa fa-calendar-alt me-3"></i><strong>Even</strong>TO
             </a>
-            <button class="lg:hidden text-white">
-                <i class="fa fa-bars"></i>
-            </button>
+           
+            
 
             <div class="hidden lg:flex space-x-4">
-                <a href="{{ route('/') }}" class="hover:text-gray-300">Home</a>
+                {{-- <a href="{{ route('/') }}" class="hover:text-gray-300">Home</a> --}}
                @auth
+               @if(!request()->is('/'))
+               <a href="{{ url('/') }}" class="nav-item nav-link">Home</a>
+           @endif
+               @role('admin')
+               <a href="{{ url('/dashboard') }}" class="nav-item nav-link">Dashboard</a>
+               @endrole
+               @role('client')
+               <a href="{{ route('get_reservations') }}" class="nav-item nav-link">My Reservations</a>
+               @endrole
+               @role('organosator')
+               <a href="{{ url('/organisator') }}" class="nav-item nav-link">Dashboard</a>
+               @endrole 
+              
+           
                <div class="group">
                 <a href="#" class="group-hover:text-gray-300">{{ Auth::user()->name }}</a>
                 <div class="hidden group-hover:block absolute  bg-gray-800 text-white p-2 space-y-2">
@@ -70,55 +83,65 @@
                            Log Out
                         </a>
                     </form> 
+                    @if(Auth::user()->ascked_permission == false)
+                    @role('client')
+                        <form action="{{ route('asckPermission',['user' => Auth::user()]) }}"><button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-blue-400 text-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">asck organitation</button></form>
+                         @endrole
+                        @else
+                        @role('organosator')
+                        fuck you
+                          @else  
+                          waiting
+                        @endrole
+                        @endif
                 </div>
+            </div>
+                @else
+                <a href="{{ route('login') }}" class="hover:text-laravel"> <i class="fa-solid fa-arrow-right-to-bracket"></i> login</a>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="hover:text-laravel">Register</a>
+                @endif
                @endauth
                
-                </div>
+               
                 {{-- <a href="{{ route('client') }}" class="hover:text-gray-300">Client</a> --}}
             </div>
 
-            <div class="hidden lg:flex space-x-4">
-                @auth
-                @role('admin')
-                <a href="{{ url('/dashboard') }}" class="fnav-item nav-link">Dashboard</a>
-                @endrole
-                @role('client')
-                <a href="{{ route('get_reservations') }}" class="fnav-item nav-link">My Reservations</a>
-                @endrole
-                @role('organosator')
-                <a href="{{ url('/organisator') }}" class="fnav-item nav-link">Dashboard</a>
-                @endrole 
-                @else
-                    <a href="{{ route('login') }}" class="hover:text-gray-300">Log in</a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">Register</a>
-                    @endif
-                @endauth
+            <div class="-me-2 flex items-center sm:hidden">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
         </div>
+
+
     </nav>
 
     <div class="container-xxl py-5 bg-gray-800 text-white hero-header mb-5 " style="background-image: url('storage/EventsImg/b983c8a0bedde84961ec3593b5df9627.jpg');background-repeat: no-repeat;background-size: cover;">
         <div class="container my-5 py-5">
             <div class="lg:flex lg:items-center lg:justify-between">
-                <div class="lg:w-6/12 text-center lg:text-lg-start">
+                <div class="lg:w-6/12 text-center lg:text-lg-start ">
                     <h1 class="text-4xl lg:text-6xl font-bold mb-4 lg:mb-6 animate__animated animate__slideInLeft">Explore Exciting Events with Us</h1>
                     
                     @auth
                     @role('admin')
-                    <a href="{{ url('/dashboard') }}" class="fnav-item nav-link">Dashboard</a>
+                    <a href="{{ url('/dashboard') }}" class="nav-item nav-link">Dashboard</a>
                     @endrole
                     @role('client')
-                    <a href="{{ url('/client') }}" class="fnav-item nav-link">Dashboard</a>
+                    <a href="{{ url('/client') }}" class="nav-item nav-link">Dashboard</a>
                     @endrole
                     @role('organosator')
-                    <a href="{{ url('/organisator') }}" class="fnav-item nav-link">Dashboard</a>
-                    @endrole                        @else
-                        <a href="{{ route('login') }}" class="nav-item nav-link">Log in</a>
+                    <a href="{{ url('/organisator') }}" class="nav-item nav-link">Dashboard</a>
+                    @endrole   
+                     @else
         
-                @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">Register</a>
-                @endif
+                        @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">Register</a>
+                        @endif</div>
+                       
             </div>
             @endauth
                 </div>

@@ -9,6 +9,8 @@
         <p><strong>End Date:</strong> {{ $item->Events->end_date }}</p>
         <p><strong>Location:</strong> {{ $item->Events->location }}</p>
         <p><strong>Number of People:</strong> {{ $item->Events->number_places }}</p>
+        <div>hiybhdqsofCDDE{!! QrCode::size(100)->generate($item->Events->location); !!}</div>
+
     </div>
 
     <!-- Other Ticket Information -->

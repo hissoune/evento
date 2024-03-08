@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\Auth\providerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,11 @@ use App\Http\Controllers\ReservationController;
 Route::get('/',[HomeController::class,'index'])->name('/');
 Route::get('search',[HomeController::class,'search'])->name('search');
 Route::get('filter/{category}',[HomeController::class,'filter'])->name('filter');
+  
+Route::middleware(['web'])->group(function () {
+    Route::get('/auth/{provider}/redirect', [providerController::class, 'redirect']);
+    Route::get('/auth/{provider}/callback', [providerController::class, 'callback']);
+});
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', function () {

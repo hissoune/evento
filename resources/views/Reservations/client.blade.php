@@ -7,10 +7,7 @@
     <div class="px-6 py-4">
         <div class="border-b border-black">
         <div class="font-bold text-xl mb-2">{{ $item->Events->title }}</div>
-        <p class="text-gray-700 text-base">
-          
-            {{ $item->Events->description }}
-        </p>
+        
     </div>
         <div class="grid grid-cols-2 gap-2">
         <p class="text-gray-700 text-base">

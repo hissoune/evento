@@ -5,9 +5,7 @@
                 <img class="w-full h-48 object-cover" src="storage/{{ $item->Events->image }}" alt="Card Image">
                 <div class="px-6 py-4">
                     <div class="font-bold text-xl mb-2">{{ $item->Events->title }}</div>
-                    <p class="text-gray-700 text-base">
-                        {{ $item->Events->description }}
-                    </p>
+                    
                     <div class="grid grid-cols-2 gap-2">
                     <p class="text-gray-700 text-base">
                         {{ $item->Events->date }}

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -44,4 +45,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public static function GenerateUsername($username)
+    {
+        if (empty($username)) {
+            $username = Str::lower(Str::random(8));
+        }
+    
+        if (User::where('username', $username)->exists()) {
+            $newUsername = $username . Str::lower(Str::random(3));
+            return self::GenerateUsername($newUsername);
+        }
+    
+        return $username;
+    }
 }

@@ -13,6 +13,8 @@
         <li><strong>reservated at :</strong> {{ $item->created_at }}</li>
         <li><strong>start date:</strong> {{ $item->Events->start_date }}</li>
         <li><strong>end date:</strong> {{ $item->Events->end_date }}</li>
+        <div>{!! QrCode::format('svg')->size(100)->generate( $item->Events->description); !!}</div>
+
     </ul>
 
     <p>If you have any questions or concerns, please don't hesitate to contact us.</p>

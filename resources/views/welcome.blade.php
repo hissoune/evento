@@ -22,7 +22,7 @@
 
         <main>
             <form action="{{ route('search') }}" method="GET" id="searchForm" onsubmit="return false;">
-                <div class="relative border-2 border-gray-100 m-4 rounded-lg">
+                <div class="relative border-2 border-gray-100  rounded-lg">
                     <div class="absolute top-4 left-3">
                         <i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i>
                     </div>
@@ -34,13 +34,14 @@
                         placeholder="Search for Event..."
                     />
                 </div>
-                <div class="container mx-auto">
-                    <div class="relative flex justify-center">
-                        <div id="serchResult" class="absolute w-1/2 pl-10 pr-20 rounded-lg focus:shadow focus:outline-none  bg-opacity-90">
-                        </div>
+                
+            </form>
+            <div class="container mx-auto">
+                <div class="relative  flex justify-center">
+                    <div id="serchResult" class="absolute w-full max-h-80 overflow-y-auto pl-10 pr-20 shadow rounded-lg focus:shadow focus:outline-none bg-white  bg-opacity-98">
                     </div>
                 </div>
-            </form>
+            </div>
            <div>
             <div class="lg:grid lg:grid-cols-6 gap-0 space-y-4 md:space-y-0 mx-2 my-6 ">
 
@@ -70,7 +71,7 @@
                         
                         <div>
                             <h3 class="text-2xl">
-                                <a href="show.html">{{ $Event->title }}</a>
+                                <a href="">{{ $Event->title }}</a>
                             </h3>
                             <div class="text-xl flex  mb-4">
                                 Location: <p class="font-bold">  {{ $Event->location }}</p> 
@@ -130,7 +131,6 @@
             <div class="flex justify-center mt-6">{{ $Events->links() }}</div>
         </main>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -159,9 +159,9 @@
                         } else {
                             $.each(data, function (index, Event) {
                                 var cardHtml = `
-                                    <div class="bg-gray-50 border border-gray-200 shadow rounded p-6">
-                                        <a href="{{ route('Event.show',$Event) }}">${Event.title}</a>
-                                        <h5>${Event.descriptionA}</h5>
+                                    <div class="  rounded flex flex-col justify-center border-y border-gray-300 p-4">
+                                        <a class="text-center font-bold text-blue-300" href="{{ route('Event.show',$Event) }}">${Event.title}</a>
+                                        <h5 class="text-center">${Event.description}</h5>
 
                                     </div>
                                 `;

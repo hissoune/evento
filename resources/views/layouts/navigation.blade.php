@@ -45,17 +45,7 @@
             <div class="flex">
                   <div class="hidden sm:flex sm:items-center sm:ms-6">
                    
-                    @if(Auth::user()->ascked_permission == false)
-                    @role('client')
-                        <form action="{{ route('asckPermission',['user' => Auth::user()]) }}"><button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-blue-400 text-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">asck organitation</button></form>
-                         @endrole
-                        @else
-                        @role('organosator')
-                        fuck you
-                          @else  
-                          waiting
-                        @endrole
-                        @endif
+                   
 
                    
                   </div>
