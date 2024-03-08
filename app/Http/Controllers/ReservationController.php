@@ -30,7 +30,7 @@ class ReservationController extends Controller
     {
         $Reservatin_cl=Reservation::where('user_id',Auth::id())->get();
        
-        return view('Reservations.index',compact('Reservatin_cl'));
+        return view('Reservations.client',compact('Reservatin_cl'));
     }
     public function get_tiket_byEmail(Reservation $item){
         
@@ -74,6 +74,8 @@ class ReservationController extends Controller
        $Event=Event::find($request->input('Event_id'));
        if($Event->status =='auto'){
         $validate = true;
+        $Event->decrement('number_places');
+        $Event->update();
        }else{
         $validate = false;
        }
@@ -108,6 +110,11 @@ class ReservationController extends Controller
      */
     public function update(Request $request, Reservation $Reservation)
     {
+        $Event=Event::find( $Reservation->Event_id);
+        $Event->decrement('number_places');
+        $Event->update();
+
+
         $Reservation->accepted=true;
         $Reservation->update();
         return redirect()->route('Reservation.index')->with('success','Reservation accepted successfuly !!');

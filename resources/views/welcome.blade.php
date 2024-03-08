@@ -1,69 +1,7 @@
 <x-Home-layout>
     <x-slot name="Home">
 
-
-{{--         
-<form class="max-w-lg mx-auto mt-6 ">
-    <div class="flex ">
-        <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
-       
-        <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20  bg-gray-50 rounded border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search for event ..." required />
-
-        <div class="relative w-full">
-            <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-blue-500 bg-blue-700 rounded-e-lg border border-blue-700  focus:ring-4 rounded focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-                <span class="sr-only">Search</span>
-            </button>
-        </div>
-    </div>
-</form>
-
-        
-        
-        <section class=" w-full mt-6 container px-6 flex justify-around">
-            @forelse ($Events as $Event)
-                <div class="mb-8 w-full md:w-1/2 lg:w-1/2 xl:w-1/3 p-4">
-                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
-                        <img src="{{ asset('storage/' . $Event->image) }}" alt="{{ $Event->title }}" width="200" class=" object-cover object-center">
-                        
-                        <div class="p-4">
-                            <h2 class="text-xl font-semibold  text-blue-500 mb-2">{{ $Event->title }}</h2>
-                            <p class="text-gray-700">{{ $Event->description }}</p>
-                            <p class="text-gray-600 mt-2">Date: {{ $Event->date }}</p>
-                            <p class="text-gray-600">Location: {{ $Event->location }}</p>
-                            <p class="text-gray-600">Number of Places: {{ $Event->number_places }}</p>
-                            <p class="text-gray-600">Status: {{ $Event->status }}</p>
-                        </div>
-                    </div>
-                    <div>
-                        @auth
-                        @role('client')
-                        <form action="{{ route('Reservations.store') }}" method="POST">
-                        @endrole
-                        @role('organosator')
-                        <form action="{{ route('Reservation.store') }}" method="POST">
-                        @endrole
-                            @csrf
-                            <input type="number" name="Event_id" value="{{ $Event->id }}" hidden>
-
-                            <label for="num_seet">number seetes</label>
-                            <input type="number" name="num_seet" id="num_seet">
-                            <button class="btn bg-green-500 rounded p-1 text-white">reserver</button>
-                            </form>  
-                        @endauth
-                    </div>
-                </div>
-            @empty
-                <div class="bg-red-100 w-full border text-center border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <h1>There is no result with this search</h1>
-                </div>
-            @endforelse
-        </section> --}}
-
-
-        <section
+        {{-- <section
             class="relative h-72 bg-laravel flex flex-col justify-center align-center text-center space-y-4 mb-4"
         >
             <div
@@ -80,10 +18,10 @@
                 </p>
                
             </div>
-        </section>
+        </section> --}}
 
         <main>
-            <form action="{{ route('search') }}" method="GET" id="searchForm">
+            <form action="{{ route('search') }}" method="GET" id="searchForm" onsubmit="return false;">
                 <div class="relative border-2 border-gray-100 m-4 rounded-lg">
                     <div class="absolute top-4 left-3">
                         <i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i>
@@ -96,14 +34,33 @@
                         placeholder="Search for Event..."
                     />
                 </div>
+                <div class="container mx-auto">
+                    <div class="relative flex justify-center">
+                        <div id="serchResult" class="absolute w-1/2 pl-10 pr-20 rounded-lg focus:shadow focus:outline-none  bg-opacity-90">
+                        </div>
+                    </div>
+                </div>
             </form>
+           <div>
+            <div class="lg:grid lg:grid-cols-6 gap-0 space-y-4 md:space-y-0 mx-2 my-6 ">
 
+            @foreach($categories as $category)
+                <div>
+                    <form action="{{ route('filter',$category) }}">
+                        <button class="btn bg-blue-400 rounded p-1 text-white">{{ $category->name }}</button>
+                    </form>
+                </div>
+                 @endforeach
+                </div>
+           </div>
+            
+       
 
             <div class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4 " >
                
                 @forelse ($Events as $Event)
                 
-                <div class="bg-gray-50 border border-gray-200 shadow rounded p-6">
+                <div class="bg-gray-50 border border-gray-200 hover:p-2 shadow rounded p-6">
                     <div class="flex">
                         <div><img
                             class="hidden w-48 h-48 mr-6 md:block"
@@ -153,15 +110,13 @@
                         </div>
                     </div>
                   <div class="flex justify-end">
-                    @role('client')
-                    <form action="{{ route('Reservations.store') }}" method="POST">
+                    <form action="{{ route('Event.show',$Event) }}" >
                     
                    
                         @csrf
-                        <input type="number" name="Event_id" value="{{ $Event->id }}" hidden>
-                        <button class="btn bg-green-500 rounded p-1 text-white">reserver</button>
+                        <button class="btn bg-green-500 rounded p-1 text-white">viw more</button>
                         </form>
-                        @endrole  
+                    
                     </div>
                 </div>
                 @empty
@@ -169,50 +124,66 @@
                         fuck you
                      </div>
                 @endforelse
+
+                
             </div>
+            <div class="flex justify-center mt-6">{{ $Events->links() }}</div>
         </main>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    
-        <script>
-    $(document).ready(function () {
-        $('#searchInput').on('input', function () {
-            var searchTerm = $(this).val();
-            console.log(searchTerm)
-            $.ajax({
-                type: 'GET',
-                url: '{{ route("search") }}',
-                dataType: 'json',
-                success: function (data) {
-                    var body = $('.lg:grid');
-                    body.empty();
-
-                    if (data.length === 0) {
-                        body.append('<div>No results found</div>');
-                    } else {
-                        $.each(data, function (index, event) {
-                           
+    <script>
+        $(document).ready(function () {
+            var searchResult=$('#serchResult');
+            $('#searchInput').on('input', function () {
+                var searchTerm = $(this).val();
+                
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ route("search") }}',
+                    data: { searchInput: searchTerm }, // Pass the search input value to the server
+                    dataType: 'json',
+                    success: function (data) {
+                       
+                       
+                        searchResult.empty();
+        
+                        if (data.length === 0) {
                             var cardHtml = `
-                                <div class="bg-gray-50 border border-gray-200 shadow rounded p-6">
-                                    <h3>${event.title}</h3>
-                                    <!-- Your event details here -->
-                                </div>
-                            `;
-                            body.append(cardHtml);
-                        });
+                                    <div class="bg-gray-50 border border-gray-200 shadow rounded p-6">
+                                        <div>No results found</div>
+
+                                    </div>
+                                `;
+                            searchResult.append(cardHtml);
+                        } else {
+                            $.each(data, function (index, Event) {
+                                var cardHtml = `
+                                    <div class="bg-gray-50 border border-gray-200 shadow rounded p-6">
+                                        <a href="{{ route('Event.show',$Event) }}">${Event.title}</a>
+                                        <h5>${Event.descriptionA}</h5>
+
+                                    </div>
+                                `;
+                                searchResult.append(cardHtml);
+                                if(searchTerm ==""){
+                                    searchResult.empty();
+                                }
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
+                });
             });
+            
+
         });
-    });
-</script>
+        
 
       
-        
+    </script>
         
         
           

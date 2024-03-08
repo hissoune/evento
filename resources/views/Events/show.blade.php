@@ -1,5 +1,6 @@
 
-<x-app-layout>
+<x-Home-layout>
+    <x-slot name="Home">
     <div class="p-8 mx-3 my-6 bg-white rounded shadow-md w-full">
         <h2 class="mb-4 text-3xl font-semibold text-center text-blue-500">{{ $Event->title }}</h2>
 
@@ -15,15 +16,37 @@
                 <p class="text-gray-600">Status: {{ $Event->status }}</p>
             </div>
         </div>
+        @auth
+            
+       
         @role('client')
         <div class="mt-8 text-center">
-            <a href="{{ route('Events.index') }}" class="text-blue-500 hover:underline">Back to Events</a>
+            <a href="{{ route('/') }}" class="text-blue-500 hover:underline"><< Back to Events</a>
         </div> 
         @endrole
         @role('admin')
         <div class="mt-8 text-center">
-            <a href="{{ route('validate_event') }}" class="text-blue-500 hover:underline">Back to Events</a>
+            <a href="{{ route('validate_event') }}" class="text-blue-500 hover:underline"> << Back to Events</a>
         </div> 
         @endrole
+        @role('client')
+                    @if( $Event->number_places >0)
+                    <form action="{{ route('Reservations.store') }}" method="POST">
+                    
+                   
+                        @csrf
+                        <input type="number" name="Event_id" value="{{ $Event->id }}" hidden>
+                        <button class="btn bg-green-500 rounded p-1 text-white">reserver</button>
+                        </form>
+                        @else
+                        this event is full
+
+                    @endif
+                   
+                        @endrole  
+        @else
+
+        @endauth
     </div>
-</x-app-layout>
+    </x-slot>
+</x-Home-layout>

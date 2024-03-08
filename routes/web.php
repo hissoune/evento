@@ -21,6 +21,7 @@ use App\Http\Controllers\ReservationController;
 
 Route::get('/',[HomeController::class,'index'])->name('/');
 Route::get('search',[HomeController::class,'search'])->name('search');
+Route::get('filter/{category}',[HomeController::class,'filter'])->name('filter');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', function () {
@@ -54,6 +55,7 @@ Route::middleware(['auth', 'role:organosator'])->group(function () {
     Route::resource('/Reservation',ReservationController::class);
    
 });
+Route::resource('/Event',EventController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

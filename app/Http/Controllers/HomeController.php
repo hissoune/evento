@@ -3,19 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index(){
-        $Events=Event::where('validated',true)->get();
-        return view('welcome',compact('Events'));
+        $categories=Category::all();
+        $Events=Event::where('validated',true)->paginate(3);
+        return view('welcome',compact('Events','categories'));
     }
     public function search(Request $request)
     {
-        $query=$request->input('query');
-        $Events = Event::where('title', 'like', '%' . $query . '%')->get();
-        return view('welcome', compact('Events'));
+        $searchTerm = $request->input('searchInput');
+        $searchResults = Event::where('title', 'like', '%' . $searchTerm . '%')->get();
+        return response()->json($searchResults);
     }
-    
+    public function filter(Category $category){
+        $categories=Category::all();
+        $Events=Event::where('categories_id',$category->id)->where('validated',true)->paginate(3);
+        return view('welcome',compact('Events','categories'));
+
+       
+    }
 }

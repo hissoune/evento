@@ -7,7 +7,7 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
+        {{-- <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link
@@ -16,7 +16,34 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous"
         referrerpolicy="no-referrer"
-    />
+    /> --}}
+     <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css') }}" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+{{--         
+        <link href="{{ asset('/template/Yummy/assets/img/favicon.png') }}" rel="icon">
+        <link href="{{ asset('/template/Yummy/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+       --}}
+         <!-- Google Fonts -->
+        <link rel="preconnect" href="{{ asset('https://fonts.googleapis.com') }}">
+        <link rel="preconnect" href="{{ asset('https://fonts.gstatic.com') }}" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> 
+         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -35,55 +62,8 @@
         </style>
     </head>
     <body class="antialiased">
-        <nav class="flex justify-between items-center mb-4">
-           
-            <a href="index.html"
-                ><img class="w-24" src="images/logo.png" alt="" class="logo"
-            /></a>
-            <ul class="flex space-x-6 mr-6 text-lg">
-                @if (Route::has('login'))
-                <div class=" sm:top-0 sm:right-0 p-6 text-right z-10">
-                    @auth
-                        @role('admin')
-                        <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
-                        @endrole
-                        @role('client')
-                        <x-nav-link :href="route('get_reservations')" :active="request()->routeIs('get_reservations')">
-                            {{ __('My Reservations') }}
-                        </x-nav-link>
-                        @endrole
-                        @role('organosator')
-                        <a href="{{ url('/organisator') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
-                        @endrole
-                    @else
-                    
-                    <li>
-                        <a href="{{ route('login') }}" class="hover:text-laravel"
-                            ><i class="fa-solid fa-arrow-right-to-bracket"></i>
-                            Login</a
-                        >
-                    </li>
-
-                        {{-- <a href="" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a> --}}
-
-                        @if (Route::has('register'))
-                        <li>
-                            <a href="{{ route('register') }}" class="hover:text-laravel"
-                                ><i class="fa-solid fa-user-plus"></i> Register</a
-                            >
-                        </li>
-                            {{-- <a href="" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a> --}}
-                        @endif
-                    @endauth
-                </div>
-            @endif
-                
-               
-            </ul>
-        </nav>
-        {{-- 
-          
-         --}}
+        
+       @include('layouts.guestnav')
        
        <main>
         {{ $Home }}
@@ -93,11 +73,7 @@
    >
        <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>
 
-       <a
-           href="create.html"
-           class="absolute top-1/3 right-10 bg-black text-white py-2 px-5"
-           >Post Job</a
-       >
+       
    </footer>
         </body>
         </html>
